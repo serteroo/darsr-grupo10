@@ -1,0 +1,32 @@
+# Credenciales y secretos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.ppk
+.aws/
+secrets/
+
+# Archivos originales y configuraciones sensibles
+originales/
+*.bak
+*.backup
+inka-web/config.php
+
+# Dependencias
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Archivos temporales
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
