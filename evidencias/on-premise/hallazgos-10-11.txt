@@ -1,0 +1,24 @@
+EMPRESA INKA - GRUPO 10
+Auditoria documental de arquitectura on-premise
+
+H-G10-10
+Hallazgo: Servicio web mediante HTTP sin TLS.
+Evidencia: Topologia original y pauta, seccion 3.1.
+Servidor: 200.100.0.1/29.
+Puerto: TCP 80.
+Riesgo: Exposicion de datos personales en transito.
+Remediacion: Implementar HTTPS/TLS.
+Control SoA: A.8.24.
+
+H-G10-11
+Hallazgo: Base de datos ubicada en la DMZ.
+Evidencia: Topologia original y pauta, seccion 2.2.
+Servidor web: 200.100.0.1/29.
+Servidor BD: 200.100.0.3/29.
+Segmento compartido: VLAN 100, 200.100.0.0/29.
+Riesgo: Segmentacion insuficiente entre servicios.
+Remediacion: Subred privada y Security Groups.
+Control SoA: A.8.22.
+
+Metodo: Analisis documental.
+Estado: Detectados, pendientes de remediacion.

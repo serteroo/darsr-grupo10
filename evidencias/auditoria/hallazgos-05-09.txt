@@ -1,0 +1,44 @@
+=== H-G10-05: Ausencia de proteccion CSRF ===
+originales/inka-web/index.php:10:if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producto_id'])) {
+originales/inka-web/index.php:81:                        <form method="POST" action="index.php">
+originales/inka-web/carrito.php:9:if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+originales/inka-web/carrito.php:95:                                <form method="POST" action="carrito.php" style="display:inline;">
+originales/inka-web/carrito.php:108:                    <form method="POST" action="carrito.php" style="display:inline; margin-right:0.5rem;">
+originales/inka-web/checkout.php:39:if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+originales/inka-web/checkout.php:120:            <form method="POST" action="checkout.php">
+=== H-G10-06: Control insuficiente de stock ===
+     9	$mensaje = '';
+    10	if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producto_id'])) {
+    11	    $id = (int) $_POST['producto_id'];
+    12	    $cantidad = max(1, (int) ($_POST['cantidad'] ?? 1));
+    13	    $_SESSION['carrito'][$id] = ($_SESSION['carrito'][$id] ?? 0) + $cantidad;
+    14	    $mensaje = 'Producto agregado correctamente al carrito de operaciones.';
+    15	}
+    62	            $stmtDet = $conn->prepare("INSERT INTO detalle_pedido (pedido_id, producto_id, cantidad, precio) VALUES (?, ?, ?, ?)");
+    63	            $stmtStk = $conn->prepare("UPDATE productos SET stock = GREATEST(0, stock - ?) WHERE id = ?");
+    64	
+    65	            foreach ($items as $it) {
+    66	                $stmtDet->bind_param('iiii', $pedidoId, $it['id'], $it['cantidad'], $it['precio']);
+    67	                $stmtDet->execute();
+    68	
+    69	                $stmtStk->bind_param('ii', $it['cantidad'], $it['id']);
+    70	                $stmtStk->execute();
+    71	            }
+=== H-G10-07: Validacion insuficiente ===
+    39	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    40	    $nombre = trim($_POST['nombre'] ?? '');
+    41	    $rut = trim($_POST['rut'] ?? '');
+    42	    $email = trim($_POST['email'] ?? '');
+    43	    $telefono = trim($_POST['telefono'] ?? '');
+    44	    $direccion = trim($_POST['direccion'] ?? '');
+    45	
+    46	    if ($nombre === '' || $rut === '' || $email === '' || $telefono === '' || $direccion === '') {
+    47	        $error = 'Todos los campos de identificación y despacho son obligatorios.';
+    48	    } else {
+=== H-G10-08: Exposicion de errores ===
+77:            $error = 'Error al registrar el pedido en la base de datos: ' . $e->getMessage();
+8:mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+=== H-G10-09: Seguridad de sesiones ===
+originales/inka-web/carrito.php:2:session_start();
+originales/inka-web/checkout.php:2:session_start();
+originales/inka-web/index.php:2:session_start();

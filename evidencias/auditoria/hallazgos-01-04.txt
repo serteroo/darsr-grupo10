@@ -1,0 +1,21 @@
+=== H-G10-01: Credenciales en codigo ===
+4: DB_PASS definida en codigo [VALOR OCULTO]
+=== H-G10-02: Respaldo expuesto ===
+total 1
+-rw-r--r-- 1 lrrgb 197609 214 nov. 25 15:21 config.php.bak
+4: Credencial definida [VALOR OCULTO]
+7: Credencial definida [VALOR OCULTO]
+=== H-G10-03: Panel sin autenticacion ===
+     1	<?php
+     2	require_once 'config.php';
+     3	
+     4	$conn = getDBConnection();
+     5	$sql = "SELECT p.id AS pedido_id, p.fecha, p.total, p.estado,
+     6	               c.nombre, c.rut, c.email, c.telefono, c.direccion
+     7	        FROM pedidos p
+     8	        INNER JOIN clientes c ON p.cliente_id = c.id
+     9	        ORDER BY p.fecha DESC";
+    10	$resultado = $conn->query($sql);
+    11	?>
+=== H-G10-04: Privilegios excesivos ===
+61:GRANT ALL PRIVILEGES ON *.* TO 'inka_app'@'%' WITH GRANT OPTION;
